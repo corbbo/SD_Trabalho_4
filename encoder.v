@@ -63,14 +63,14 @@ always @(posedge clock or posedge reset) begin
         // if flag is not set, run the algorithm
         else if (i < 32) begin
             if (~y_z_switch) begin // if y_z_switch is set, run the y algorithm, else run the z algorithm
-                y0 <= y0 + (((z0 << 4) ^ (z0 >> 5)) + z0) ^ (sum + key_segment);
-                y1 <= y1 + (((z1 << 4) ^ (z1 >> 5)) + z1) ^ (sum + key_segment);
+                y0 <= y0 + ((((z0 << 4) ^ (z0 >> 5)) + z0) ^ (sum + key_segment));
+                y1 <= y1 + ((((z1 << 4) ^ (z1 >> 5)) + z1) ^ (sum + key_segment));
                 sum <= sum + delta;
                 y_z_switch <= ~y_z_switch; // flip the switch to z algorithm
             end
             else begin
-                z0 <= z0 + (((y0 << 4) ^ (y0 >> 5)) + y0) ^ (sum + key_segment);
-                z1 <= z1 + (((y1 << 4) ^ (y1 >> 5)) + y1) ^ (sum + key_segment);
+                z0 <= z0 + ((((y0 << 4) ^ (y0 >> 5)) + y0) ^ (sum + key_segment));
+                z1 <= z1 + ((((y1 << 4) ^ (y1 >> 5)) + y1) ^ (sum + key_segment));
                 y_z_switch <= ~y_z_switch; // flip switch back to y algorithm
                 i <= i + 1;
             end
